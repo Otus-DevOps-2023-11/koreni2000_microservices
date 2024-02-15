@@ -1,0 +1,12 @@
+---
+# tasks file for run_app_image
+- name: Run Image
+  docker_container:
+    name: reddit
+    image: "{{ docker_image }}"
+    ports:
+      - 9292:9292
+    pull: True
+    state: started
+    restart: True
+    restart_policy: "always"

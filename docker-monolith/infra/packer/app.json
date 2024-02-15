@@ -1,0 +1,37 @@
+{
+    "variables":
+        {
+        "sa_path": "",
+        "id_source_image": "",
+        "id_directory": "",
+        "subnet_id": ""
+        },
+    "builders": [
+        {
+            "type": "yandex",
+            "service_account_key_file": "{{user `sa_path`}}",
+            "folder_id": "{{user `id_directory`}}",
+            "source_image_family": "{{user `id_source_image`}}",
+            "image_name": "docker-app-{{timestamp}}",
+            "image_family": "docker-base",
+            "ssh_username": "ubuntu",
+            "platform_id": "standard-v1",
+            "use_ipv4_nat": true
+        }
+    ],
+
+
+
+    "provisioners": [
+        {
+            "type": "shell",
+            "inline":  ["sleep 30"]
+        },
+        {
+            "type": "ansible",
+            "playbook_file": "../ansible/playbooks/packer_deploy_app.yml",
+            "extra_arguments" :  [  "--extra-vars" ,  "user=ubuntu"  ]
+
+        }
+        ]
+}

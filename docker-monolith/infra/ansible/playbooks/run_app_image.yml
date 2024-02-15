@@ -1,0 +1,6 @@
+---
+- name: Load and run image reddit
+  hosts: docker
+  become: True
+  roles:
+  - run_app_image
