@@ -1,6 +1,7 @@
 FROM ruby:2.5.1-alpine
 RUN apk update \
- && apk install -y ruby-full ruby-dev build-essential
+ && apk install -y ruby-full ruby-dev build-essential \
+ && apk install -y bundler
 
 ENV APP_HOME /app
 RUN mkdir $APP_HOME
