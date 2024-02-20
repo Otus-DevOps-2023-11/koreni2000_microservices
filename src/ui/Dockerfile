@@ -1,5 +1,5 @@
 FROM ruby:2.2.1-alpine
-RUN apt-get update -qq && apt-get install -y build-essential && apt install -y bundler
+RUN apt-get update -qq && apt-get install -y build-essential
 
 ENV APP_HOME /app
 RUN mkdir $APP_HOME
