@@ -1,4 +1,4 @@
-FROM ruby:2.5.1-alpine
+FROM ruby:2.2.1-alpine
 RUN apt update -qq && apt install -y build-essential && apt install -y bundler
 
 ENV APP_HOME /app
