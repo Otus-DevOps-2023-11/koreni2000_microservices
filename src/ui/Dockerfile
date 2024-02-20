@@ -1,7 +1,5 @@
 FROM ruby:2.5.1-alpine
-RUN apk update \
- && apk install -y ruby-full ruby-dev build-essential \
- && apk install -y bundler
+RUN apt-get update -qq && apt-get install -y build-essential && apt install -y bundler
 
 ENV APP_HOME /app
 RUN mkdir $APP_HOME
