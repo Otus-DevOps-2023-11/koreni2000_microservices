@@ -4,7 +4,7 @@ services:
   post_db:
     env_file:
     - .env
-    image: mongo:${mongo_version}
+    image: mongo:3.2
     volumes:
       - post_db:/data/db
     networks:
@@ -13,16 +13,16 @@ services:
     env_file:
     - .env
     build: ./ui
-    image: ${username}/ui:${ui_version}
+    image: ${username}/ui:1.0
     ports:
-      - ${ui_host_port}:${ui_container_port}/tcp
+      - 9292:9292/tcp
     networks:
       - front-net
   post:
     env_file:
       - .env
     build: ./post-py
-    image: ${username}/post:${post_version}
+    image: ${username}/post:1.0
     networks:
       - back-net
       - front-net
@@ -30,7 +30,7 @@ services:
     env_file:
     - .env
     build: ./comment
-    image: ${username}/comment:${comment_version}
+    image: ${username}/comment:1.0
     networks:
       - back-net
       - front-net
