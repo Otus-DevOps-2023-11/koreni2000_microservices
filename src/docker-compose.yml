@@ -1,0 +1,43 @@
+version: '3.3'
+#name: reddit_project
+services:
+  post_db:
+    env_file:
+    - .env
+    image: mongo:${mongo_version}
+    volumes:
+      - post_db:/data/db
+    networks:
+      - back-net
+  ui:
+    env_file:
+    - .env
+    build: ./ui
+    image: ${username}/ui:${ui_version}
+    ports:
+      - ${ui_host_port}:${ui_container_port}/tcp
+    networks:
+      - front-net
+  post:
+    env_file:
+      - .env
+    build: ./post-py
+    image: ${username}/post:${post_version}
+    networks:
+      - back-net
+      - front-net
+  comment:
+    env_file:
+    - .env
+    build: ./comment
+    image: ${username}/comment:${comment_version}
+    networks:
+      - back-net
+      - front-net
+
+volumes:
+  post_db:
+
+networks:
+  front-net:
+  back-net:
