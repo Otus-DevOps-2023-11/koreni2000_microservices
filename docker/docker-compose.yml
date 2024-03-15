@@ -1,5 +1,5 @@
 version: '3.3'
-name: reddit_project
+#name: reddit_project
 
 services:
   post_db:
