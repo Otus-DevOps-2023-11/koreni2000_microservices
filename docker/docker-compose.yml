@@ -1,0 +1,85 @@
+version: '3.3'
+name: reddit_project
+
+services:
+  post_db:
+    env_file:
+    - .env
+    image: mongo:${mongo_version}
+    volumes:
+      - post_db:/data/db
+    networks:
+      - back-net
+  ui:
+    env_file:
+    - .env
+    build: ../src/ui/docker_build.sh
+    image: ${username}/ui:${ui_version}
+    ports:
+      - ${ui_host_port}:${ui_container_port}/tcp
+    networks:
+      - front-net
+  post:
+    env_file:
+      - .env
+    build: ../src/post-py/docker_build.sh
+    image: ${username}/post:${post_version}
+    networks:
+      - back-net
+      - front-net
+  comment:
+    env_file:
+    - .env
+    build: ../src/comment/docker_build.sh
+    image: ${username}/comment:${comment_version}
+    networks:
+      - back-net
+      - front-net
+  prometheus:
+    image: ${username}/prometheus
+    ports:
+      - '9090:9090'
+    volumes:
+      - prometheus_data:/prometheus
+    command: # Передаем доп параметры в командной строке
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention=1d' # Задаем время хранения метрик в 1 день
+    networks:
+      - back-net
+      - front-net
+  node-exporter:
+    image: prom/node-exporter:v0.15.2
+    user: root
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points="^/(sys|proc|dev|host|etc)($$|/)"'
+    networks:
+      - back-net
+  mongodb-exporter:
+    image: bitnami/mongodb-exporter:latest
+    environment:
+      - MONGODB_URI=mongodb://post_db:27017
+    ports:
+      - "9216:9216"
+    networks:
+      - back-net
+  blackbox-exporter:
+    image: prom/blackbox-exporter:latest
+    ports:
+      - "9115:9115"
+    networks:
+      - back-net
+
+volumes:
+  post_db:
+  prometheus_data:
+
+networks:
+  front-net:
+  back-net:
