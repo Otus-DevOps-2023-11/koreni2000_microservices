@@ -16,7 +16,7 @@ services:
   ui:
     env_file:
     - .env
-    build: /Users/koreni/DevOps/OTUS/l004/koreni2000_microservices/src/ui/docker_build.sh
+    build: ../src/ui/docker_build.sh
     image: ${username}/ui:${ui_version}
     ports:
       - ${ui_host_port}:${ui_container_port}/tcp
