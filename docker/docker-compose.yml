@@ -16,7 +16,7 @@ services:
   ui:
     env_file:
     - .env
-    build: ../src/ui/docker_build.sh
+    # build: ../src/ui/docker_build.sh
     image: ${username}/ui:${ui_version}
     ports:
       - ${ui_host_port}:${ui_container_port}/tcp
@@ -33,7 +33,7 @@ services:
   post:
     env_file:
       - .env
-    build: ../src/post-py/docker_build.sh
+    # build: ../src/post-py/docker_build.sh
     image: ${username}/post:${post_version}
     networks:
       - back-net
@@ -49,7 +49,7 @@ services:
   comment:
     env_file:
     - .env
-    build: ../src/comment/docker_build.sh
+    # build: ../src/comment/docker_build.sh
     image: ${username}/comment:${comment_version}
     networks:
       - back-net
