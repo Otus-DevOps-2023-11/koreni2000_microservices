@@ -21,7 +21,7 @@ services:
     ports:
       - ${ui_host_port}:${ui_container_port}/tcp
     networks:
-      - front-net
+      - back-net
     logging:
       driver: "fluentd"
       options:
@@ -37,7 +37,6 @@ services:
     image: ${username}/post:${post_version}
     networks:
       - back-net
-      - front-net
     logging:
       driver: "fluentd"
       options:
@@ -53,7 +52,6 @@ services:
     image: ${username}/comment:${comment_version}
     networks:
       - back-net
-      - front-net
     environment:
       - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
 
@@ -103,5 +101,4 @@ volumes:
   prometheus_data:
 
 networks:
-  front-net:
   back-net:
