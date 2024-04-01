@@ -17,7 +17,7 @@ services:
     env_file:
     - .env
     # build: ../src/ui/docker_build.sh
-    image: ${username}/ui:${ui_version}
+    image: ${USERNAME}/ui:${ui_version}
     ports:
       - ${ui_host_port}:${ui_container_port}/tcp
     networks:
@@ -34,7 +34,7 @@ services:
     env_file:
       - .env
     # build: ../src/post-py/docker_build.sh
-    image: ${username}/post:${post_version}
+    image: ${USERNAME}/post:${post_version}
     networks:
       - back-net
     logging:
@@ -49,14 +49,14 @@ services:
     env_file:
     - .env
     # build: ../src/comment/docker_build.sh
-    image: ${username}/comment:${comment_version}
+    image: ${USERNAME}/comment:${comment_version}
     networks:
       - back-net
     environment:
       - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
 
   # prometheus:
-  #   image: ${username}/prometheus
+  #   image: ${USERNAME}/prometheus
   #   ports:
   #     - '9090:9090'
   #   volumes:
